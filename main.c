@@ -21,6 +21,12 @@ typedef unsigned __int64 QWORD;
 //Ideally this should never be hit when doing a normal capture, we want to avoid a potential allocation mid capture
 #define DEFAULT_SAMPLE_ALLOCATION_COUNT 80000
 
+enum CaptureMode_e
+{
+    WndProc = 0,
+    Thread
+};
+
 struct MouseUpdate_s
 {
     LONG lLastX;
