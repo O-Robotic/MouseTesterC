@@ -296,13 +296,7 @@ static void ExportButtonPressed()
         
         LARGE_INTEGER ticksSinceStart;
         ticksSinceStart.QuadPart = pMouseUpdate->captureTimeStamp.QuadPart - g_CaptureStartTime.QuadPart;
-        //ticksSinceStart.QuadPart *= 1000000;
-        //ticksSinceStart.QuadPart /= g_PerformanceFrequency.QuadPart;
-
         const double timeMs = ticksSinceStart.QuadPart * 1000.0 / g_PerformanceFrequency.QuadPart;
-
-
-        //const double timeMs = (double)ticksSinceStart.QuadPart / 1000;
         (void)fprintf(pFile,"%d,%d,%f,%hd\n", pMouseUpdate->lLastX, -(pMouseUpdate->lLastY), timeMs, pMouseUpdate->usButtonFlags);
     }
 
