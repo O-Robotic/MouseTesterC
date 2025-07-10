@@ -137,13 +137,14 @@ static void HandleMouseUpdate(const RAWINPUT* const rawEvent, const LARGE_INTEGE
     {
         if (g_nRecordedMouseUpdates == g_nAllocatedMouseRecordingSlots)
         {
-            g_nAllocatedMouseRecordingSlots *= 2;
+            const size_t nNewBuffSize = g_nAllocatedMouseRecordingSlots * 2;
             struct MouseUpdate_s* newMem = (struct MouseUpdate_s*)HeapReAlloc(g_hProcessHeap, 0, g_pRecordedMouseUpdates, 
-                sizeof(struct MouseUpdate_s) * g_nAllocatedMouseRecordingSlots);
+                sizeof(struct MouseUpdate_s) * nNewBuffSize);
 
             if (!newMem)
                 return;
 
+            g_nAllocatedMouseRecordingSlots = nNewBuffSize;
             g_pRecordedMouseUpdates = newMem;
         }
 
