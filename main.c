@@ -164,8 +164,8 @@ static void HandleRawInputUpdate(const RAWINPUT* const rawInput, LARGE_INTEGER* 
     if (rawInput->header.dwType == RIM_TYPEMOUSE)
     {
         HandleMouseUpdate(rawInput, pTimestamp);
-#ifdef DEBUG
-        printf("LastX %d LastY %d\n", rawInput.data.mouse.lLastX, rawInput.data.mouse.lLastY)
+#ifdef _DEBUG
+        printf("LastX %d LastY %d\n", rawInput->data.mouse.lLastX, rawInput->data.mouse.lLastY);
 #endif // DEBUG
     }
 }
