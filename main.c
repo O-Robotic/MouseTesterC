@@ -45,7 +45,7 @@ static struct MouseUpdate_s* g_pRecordedMouseUpdates = NULL;
 static bool g_bCaptureFromWndProc = false;
 static bool g_bMouseRecording = false;
 static bool g_bMouseRecordQueued = false;
-static bool g_bRunCaptureThread = false;
+static volatile bool g_bRunCaptureThread = false;
 
 static HWND g_hMainWnd = NULL;
 static HWND g_hStatusDisplay = NULL;
