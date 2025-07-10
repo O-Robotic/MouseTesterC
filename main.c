@@ -138,7 +138,7 @@ static void HandleMouseUpdate(const RAWINPUT* const rawEvent, const LARGE_INTEGE
         if (g_nRecordedMouseUpdates == g_nAllocatedMouseRecordingSlots)
         {
             const size_t nNewBuffSize = g_nAllocatedMouseRecordingSlots * 2;
-            struct MouseUpdate_s* newMem = (struct MouseUpdate_s*)HeapReAlloc(g_hProcessHeap, 0, g_pRecordedMouseUpdates, 
+            struct MouseUpdate_s* const newMem = (struct MouseUpdate_s*)HeapReAlloc(g_hProcessHeap, 0, g_pRecordedMouseUpdates, 
                 sizeof(struct MouseUpdate_s) * nNewBuffSize);
 
             if (!newMem)
@@ -148,7 +148,7 @@ static void HandleMouseUpdate(const RAWINPUT* const rawEvent, const LARGE_INTEGE
             g_pRecordedMouseUpdates = newMem;
         }
 
-        struct MouseUpdate_s* pMouseUpdate = &g_pRecordedMouseUpdates[g_nRecordedMouseUpdates];
+        struct MouseUpdate_s* const pMouseUpdate = &g_pRecordedMouseUpdates[g_nRecordedMouseUpdates];
         g_nRecordedMouseUpdates++;
 
         pMouseUpdate->lLastX = rawEvent->data.mouse.lLastX;
@@ -159,7 +159,7 @@ static void HandleMouseUpdate(const RAWINPUT* const rawEvent, const LARGE_INTEGE
     }
 }
 
-static void HandleRawInputUpdate(const RAWINPUT* const rawInput, LARGE_INTEGER* pTimestamp)
+static void HandleRawInputUpdate(const RAWINPUT* const rawInput, const LARGE_INTEGER* const pTimestamp)
 {
     if (rawInput->header.dwType == RIM_TYPEMOUSE)
     {
@@ -183,7 +183,7 @@ static void HandleRawInputHandle(HRAWINPUT hRawInput)
 static DWORD WINAPI ReadRawInputAsThread(LPVOID lpThreadParam)
 {
     (void)lpThreadParam;
-    HWND dummyWnd = CreateWindowEx(0, TEXT("Message"), NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
+    const HWND dummyWnd = CreateWindowEx(0, TEXT("Message"), NULL, 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
     RAWINPUT RawInputBuffer[32];
     UINT buffSize = sizeof(RawInputBuffer);
     RegisterForRawInput(dummyWnd, true);
@@ -202,7 +202,7 @@ static DWORD WINAPI ReadRawInputAsThread(LPVOID lpThreadParam)
             if (rawInputBufferCount == -1)
                 continue;
 
-            RAWINPUT* pCurrentEvent = RawInputBuffer;
+            const RAWINPUT* pCurrentEvent = RawInputBuffer;
             for (size_t i = 0; i < rawInputBufferCount; i++)
             {
                 HandleRawInputUpdate(pCurrentEvent, &timestamp);
@@ -218,7 +218,7 @@ static DWORD WINAPI ReadRawInputAsThread(LPVOID lpThreadParam)
 
 static void CaptureButtonPressed()
 {
-    LRESULT index = SendMessage(g_hModeSelectComboBox, CB_GETCURSEL, 0, 0);
+    const LRESULT index = SendMessage(g_hModeSelectComboBox, CB_GETCURSEL, 0, 0);
 
     switch (index)
     {
@@ -258,7 +258,6 @@ static void ExportButtonPressed()
     SYSTEMTIME currentTime;
     GetSystemTime(&currentTime);
     char* pszCPI = NULL;
-    FILE* pFile = NULL;
 
     const int nCPILength = GetWindowTextLengthA(g_hCPIValueBox);
 
@@ -285,7 +284,7 @@ static void ExportButtonPressed()
     (void)snprintf(szExportFilePath, sizeof(szExportFilePath), "%s-%d-%d-%d_%d-%d-%d.csv", pszCaptureName,
         currentTime.wYear, currentTime.wMonth, currentTime.wDay, currentTime.wHour, currentTime.wMinute, currentTime.wSecond);
 
-    pFile = fopen(szExportFilePath, "wb+");
+    const FILE* const pFile = fopen(szExportFilePath, "wb+");
 
     if (!pFile) 
     {
