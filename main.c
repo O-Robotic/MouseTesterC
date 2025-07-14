@@ -284,7 +284,7 @@ static void ExportButtonPressed()
     (void)snprintf(szExportFilePath, sizeof(szExportFilePath), "%s-%d-%d-%d_%d-%d-%d.csv", pszCaptureName,
         currentTime.wYear, currentTime.wMonth, currentTime.wDay, currentTime.wHour, currentTime.wMinute, currentTime.wSecond);
 
-    const FILE* const pFile = fopen(szExportFilePath, "wb+");
+    FILE* const pFile = fopen(szExportFilePath, "wb+");
 
     if (!pFile) 
     {
